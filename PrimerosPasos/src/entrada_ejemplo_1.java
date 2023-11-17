@@ -10,6 +10,7 @@ public class entrada_ejemplo_1 {
 		System.out.println("introduce edad, por favor");
 		int edad=entrada.nextInt();
 		System.out.println("hola " + nombre_usuario + " el año que viene tendras " + (edad+1) + " Años");
+		entrada.close();
 	}
 
 }
