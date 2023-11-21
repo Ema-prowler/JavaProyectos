@@ -196,11 +196,6 @@ public class Calculadora extends JFrame {
 		JButton btnNewButton_8 = new JButton("7");
 		btnNewButton_8.setForeground(new Color(255, 255, 255));
 		btnNewButton_8.setBorderPainted(false);
-		btnNewButton_8.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addNumber("7");
-			}
-		});
 		btnNewButton_8.setRolloverIcon(new ImageIcon(Calculadora.class.getResource("/Imagenes/btn1_pressed_dark.png")));
 		btnNewButton_8.setIcon(new ImageIcon(Calculadora.class.getResource("/Imagenes/btn1_dark.png")));
 		btnNewButton_8.setToolTipText("5");
@@ -355,10 +350,6 @@ public class Calculadora extends JFrame {
 		btnNewButton_10.addActionListener(numberButtonListener);//1
 		btnNewButton_9.addActionListener(numberButtonListener);//4
 		btnNewButton_8.addActionListener(numberButtonListener);//7
-	}
-	public void addNumber(String digito) {
-		JLabel txtoperacion = null;
-		txtoperacion.setText(txtoperacion.getText()+digito);
 	}
 
 	public void startColorAnimation(JButton button) {
