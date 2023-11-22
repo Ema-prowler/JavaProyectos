@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Component;
-
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -17,13 +16,16 @@ import javax.swing.Timer;
 import java.awt.Window.Type;
 
 public class Calculadora extends JFrame {
-	public JButton btnNewButton_7;
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private final JPanel panel = new JPanel();
-	private final JPanel panel_1 = new JPanel();
-	private JLabel texresultado;
-
+	private boolean resultadoMostrado = false;
+	 private static final long serialVersionUID = 1L;
+	 private JPanel contentPane;
+	    private final JPanel panel = new JPanel();
+	    private final JPanel panel_1 = new JPanel();
+	    private JLabel texoperacion;
+	    private JLabel texresultado;
+	    private double resultado; // Almacena el resultado de las operaciones
+	    private String operador = ""; // Almacena el operador actual
+	    
 	/**
 	 * Launch the application.
 	 */
@@ -44,57 +46,58 @@ public class Calculadora extends JFrame {
 	 * Create the frame.
 	 */
 	public Calculadora() {
-		setType(Type.UTILITY);
 		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 270, 531);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(255, 255, 255));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 270, 531);
+        contentPane = new JPanel();
+        contentPane.setBackground(new Color(255, 255, 255));
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		setContentPane(contentPane);
-		contentPane.setLayout(null);
-		panel.setBackground(new Color(46, 57, 81));
-		panel.setBounds(0, 21, 254, 160);
-		contentPane.add(panel);
-		panel.setLayout(null);
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+        panel.setBackground(new Color(46, 57, 81));
+        panel.setBounds(0, 21, 254, 160);
+        contentPane.add(panel);
+        panel.setLayout(null);
 		
-		JLabel texoperacion = new JLabel("");
-		texoperacion.setForeground(Color.WHITE);
-		texoperacion.setHorizontalAlignment(SwingConstants.RIGHT);
-		texoperacion.setFont(new Font("Roboto", Font.BOLD, 18));
-		texoperacion.setBounds(0, 0, 244, 40);
-		panel.add(texoperacion);
+        texoperacion = new JLabel("");
+        texoperacion.setForeground(Color.WHITE);
+        texoperacion.setHorizontalAlignment(SwingConstants.RIGHT);
+        texoperacion.setFont(new Font("Roboto", Font.BOLD, 18));
+        texoperacion.setBounds(0, 0, 244, 40);
+        panel.add(texoperacion);
+
+        texresultado = new JLabel("0");
+        texresultado.setForeground(Color.WHITE);
+        texresultado.setHorizontalAlignment(SwingConstants.RIGHT);
+        texresultado.setFont(new Font("Roboto Black", Font.PLAIN, 36));
+        texresultado.setBounds(0, 38, 244, 40);
+        panel.add(texresultado);
+        panel_1.setForeground(new Color(255, 255, 255));
+        panel_1.setBackground(new Color(46, 57, 81));
+        panel_1.setBounds(0, 180, 254, 312);
+        contentPane.add(panel_1);
+        panel_1.setLayout(null);
 		
-		JLabel texresultado = new JLabel("");
-		texresultado.setForeground(Color.WHITE);
-		texresultado.setHorizontalAlignment(SwingConstants.RIGHT);
-		texresultado.setFont(new Font("Roboto Black", Font.PLAIN, 36));
-		texresultado.setBounds(0, 38, 244, 40);
-		panel.add(texresultado);
-		panel_1.setForeground(new Color(255, 255, 255));
-		panel_1.setBackground(new Color(46, 57, 81));
-		panel_1.setBounds(0, 180, 254, 312);
-		contentPane.add(panel_1);
-		panel_1.setLayout(null);
-		
-		JButton btnNewButton = new JButton("C");
-		btnNewButton.setFocusPainted(false);
-		btnNewButton.setForeground(new Color(255, 255, 255));
-		btnNewButton.setBorderPainted(false);
-		btnNewButton.setRolloverIcon(new ImageIcon(Calculadora.class.getResource("/Imagenes/btn1_pressed_dark.png")));
-		btnNewButton.setFont(new Font("Roboto Light", Font.PLAIN, 24));
-		btnNewButton.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnNewButton.setToolTipText("5");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				texoperacion.setText("");
-				texresultado.setText("");
-			}
-		});
-		btnNewButton.setIcon(new ImageIcon(Calculadora.class.getResource("/Imagenes/btn1_dark.png")));
-		btnNewButton.setBounds(10, 12, 50, 50);
-		panel_1.add(btnNewButton);
+        JButton btnNewButton = new JButton("C");
+        btnNewButton.setFocusPainted(false);
+        btnNewButton.setForeground(new Color(255, 255, 255));
+        btnNewButton.setBorderPainted(false);
+        btnNewButton.setRolloverIcon(new ImageIcon(Calculadora.class.getResource("/Imagenes/btn1_pressed_dark.png")));
+        btnNewButton.setFont(new Font("Roboto Light", Font.PLAIN, 24));
+        btnNewButton.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnNewButton.setToolTipText("5");
+        btnNewButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                texoperacion.setText("");
+                texresultado.setText("0");
+                resultado = 0;
+                operador = "";
+            }
+        });
+        btnNewButton.setIcon(new ImageIcon(Calculadora.class.getResource("/Imagenes/btn1_dark.png")));
+        btnNewButton.setBounds(10, 12, 50, 50);
+        panel_1.add(btnNewButton);
 		
 		JButton btnNewButton_1 = new JButton("^");
 		btnNewButton_1.setForeground(new Color(255, 255, 255));
@@ -330,16 +333,27 @@ public class Calculadora extends JFrame {
 		panel_2.setBounds(0, 0, 254, 21);
 		contentPane.add(panel_2);
 		setLocationRelativeTo(null);
-		
+		// Modificar ActionListener para botones numéricos
 		ActionListener numberButtonListener = new ActionListener() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
 		        JButton clickedButton = (JButton) e.getSource();
 		        String currentText = texresultado.getText();
 		        String buttonText = clickedButton.getText();
-		        texresultado.setText(currentText.equals("0") ? buttonText : currentText + buttonText);
+
+		        // Si ya se realizó una operación y se presiona un número, comenzar una nueva operación
+		        if (operador.isEmpty() || resultadoMostrado) {
+		            texresultado.setText(buttonText);
+		            resultadoMostrado = false;
+		        } else {
+		            // Concatenar el nuevo número al número actual
+		            texresultado.setText(currentText + buttonText);
+		        }
 		    }
 		};
+
+	    //configurar actionlistener para botones numericos.
+		
 		btnNewButton_17.addActionListener(numberButtonListener);//0
 		btnNewButton_16.addActionListener(numberButtonListener);//3
 		btnNewButton_15.addActionListener(numberButtonListener);//2
@@ -350,8 +364,102 @@ public class Calculadora extends JFrame {
 		btnNewButton_10.addActionListener(numberButtonListener);//1
 		btnNewButton_9.addActionListener(numberButtonListener);//4
 		btnNewButton_8.addActionListener(numberButtonListener);//7
-	}
+		
+		// ActionListener para botones de operación
+		ActionListener operationButtonListener = new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        JButton clickedButton = (JButton) e.getSource();
+		        String buttonText = clickedButton.getText();
 
+		        // Manejar el botón de igual
+		        if (buttonText.equals("=")) {
+		            realizarOperacion();
+		        } else {
+		            // Si el operador no está vacío, realizar la operación
+		            if (!operador.isEmpty()) {
+		                realizarOperacion();
+		            }
+		            // Almacenar el nuevo operador solo si es diferente del actual
+		            if (!operador.equals(buttonText)) {
+		                operador = buttonText;
+		                // Almacenar el número actual
+		                resultado = Double.parseDouble(texresultado.getText());
+		            }
+		            // Limpiar el texto
+		            texresultado.setText("0");
+		        }
+		    }
+		};
+
+		//configurar actionlistener para botones de operacion
+        // Configurar actionlistener para botones de operacion
+        btnNewButton_1.addActionListener(operationButtonListener);// ^
+        btnNewButton_2.addActionListener(operationButtonListener);// %
+        btnNewButton_3.addActionListener(operationButtonListener);// /
+        btnNewButton_4.addActionListener(operationButtonListener);// *
+        btnNewButton_5.addActionListener(operationButtonListener);// -
+        btnNewButton_6.addActionListener(operationButtonListener);// +
+        btnNewButton_7.addActionListener(operationButtonListener);// =
+        btnNewButton_18.addActionListener(operationButtonListener);// =
+		
+     // Modificar ActionListener para el botón "="
+        ActionListener igualButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    realizarOperacion();
+                    resultadoMostrado = true;
+                } catch (NumberFormatException ex) {
+                    ex.printStackTrace(); // Opcional: Imprime el seguimiento de la pila para depuración
+                }
+            }
+        };
+
+        // Configurar ActionListener para el botón "="
+        btnNewButton_7.addActionListener(igualButtonListener);
+	}
+	
+	private void realizarOperacion() {
+        String textoResultado = texresultado.getText();
+
+        if (!textoResultado.isEmpty()) {
+            double nuevoNumero = Double.parseDouble(textoResultado);
+
+            switch (operador) {
+                case "^":
+                    // Realizar la operación de potenciación según sea necesario
+                    break;
+                case "%":
+                    // Realizar la operación de porcentaje según sea necesario
+                    break;
+                case "/":
+                    if (nuevoNumero != 0) {
+                        resultado /= nuevoNumero;
+                    } else {
+                        // Manejar la división por cero
+                        resultado = 0;
+                    }
+                    break;
+                case "*":
+                    resultado *= nuevoNumero;
+                    break;
+                case "-":
+                    resultado -= nuevoNumero;
+                    break;
+                case "+":
+                    resultado += nuevoNumero;
+                    break;
+                // Agregar más casos según sea necesario
+            }
+
+            // Mostrar el resultado
+            texresultado.setText(String.valueOf(resultado));
+        }
+
+        // Restablecer el operador
+        operador = "";
+    }
 	public void startColorAnimation(JButton button) {
 	  javax.swing.Timer timer = new javax.swing.Timer(200, new ActionListener() {
 	        public float hue = 0.0f;
